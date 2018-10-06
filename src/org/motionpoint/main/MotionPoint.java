@@ -7,7 +7,7 @@ public class MotionPoint {
 	public static InformationWindow infoWindow;
 
 	public static void main(String[] args) {
-		
+		//create new world
 		World world = new World();
 		
 		infoWindow = new InformationWindow();
