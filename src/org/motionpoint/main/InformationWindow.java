@@ -11,6 +11,8 @@ import org.motionpoint.main.Node.ConnectionType;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -42,6 +44,23 @@ public class InformationWindow extends JFrame {
 	}
 
 	public InformationWindow() {
+		
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 200, 320);
@@ -69,7 +88,7 @@ public class InformationWindow extends JFrame {
 		txtY.setColumns(10);
 		
 		JLabel lblCmd = new JLabel("Cmd:");
-		lblCmd.setBounds(10, 93, 25, 14);
+		lblCmd.setBounds(10, 93, 46, 14);
 		contentPane.add(lblCmd);
 		
 		txtCmd = new JTextField();

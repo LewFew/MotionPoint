@@ -29,7 +29,7 @@ public class World {
 		primedNode = newPrime;
 	}
 	
-	public void drawCurve(Graphics2D g2d, boolean smaller) {
+	public void drawCurve(Graphics2D g2d, int x, int y, int startTheta, int dispTheta) {
 		
 	}
  	
@@ -63,13 +63,24 @@ public class World {
 						nodes.get(i - 1).getX(), nodes.get(i - 1).getY());
 			} else if (i > 1 && nodes.get(i - 1).getType() == Node.ConnectionType.CURVED) {
 				g2d.setColor(Color.GREEN);
-				System.out.println((int)((180 * Math.atan(nodes.get(i - 1).getSlope())) / Math.PI) + " " + currentNode.getSlope());
+				
+				int deltaX, deltaY;
+				int radius = 50;
+				int theta = (int)((180 * Math.atan(nodes.get(i - 1).getSlope())) / Math.PI);
+				
+				deltaX = (int) ((radius * Math.cos(Math.toRadians(theta))) + (100 * Math.cos(Math.toRadians(135))));
+				deltaY = (int) ((radius * Math.sin(Math.toRadians(theta))) + (100 * Math.sin(Math.toRadians(135))));
+				
+				System.out.println(deltaX + " " + deltaY);
+				
 				if (Math.atan(nodes.get(i - 1).getSlope()) >= 0) {
-					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad(), nodes.get(i - 1).getY() - nodes.get(i - 1).getRad(),
-					100, 100, 90 + Math.abs((int)((180 * Math.atan(nodes.get(i - 1).getSlope())) / Math.PI)), 100);
+					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX - 33,
+							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() - deltaY - 33,
+					100, 100, 90 + Math.abs(theta), 100);
 				} else {
-					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad(), nodes.get(i - 1).getY() - nodes.get(i - 1).getRad(),
-					100, 100, 270 - Math.abs((int)((180 * Math.atan(nodes.get(i - 1).getSlope())) / Math.PI)), 100);
+					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX - 33,
+							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() - deltaY - 33,
+					100, 100, 270 - Math.abs(theta), 100);
 				}
 			} else if (i == 1 && nodes.get(i - 1).getType() == Node.ConnectionType.CURVED) {
 				double startTheta = 0;
