@@ -55,7 +55,16 @@ public class World {
 					currentNode.getY() + currentNode.getRad() / 4);
 			
 			g.setColor(Color.BLACK);
-			g.drawString(String.valueOf(currentNode.getSlope()), currentNode.getX() - 50, currentNode.getY());
+			g.drawString(String.valueOf(currentNode.getAngle()), currentNode.getX() - 50, currentNode.getY());
+			
+			/*g.setColor(Color.RED);
+			g.drawLine(currentNode.getX(), currentNode.getY(),
+					currentNode.getX() - (int)currentNode.getDeltaX(),
+					currentNode.getY());
+			
+			g.drawLine(currentNode.getX() - (int)currentNode.getDeltaX(), currentNode.getY(),
+					currentNode.getX() - (int)currentNode.getDeltaX(),
+					currentNode.getY() + (int)currentNode.getDeltaY());*/
 			
 			if (i > 0 && nodes.get(i - 1).getType() == Node.ConnectionType.STRAIGHT) {
 				g.setColor(Color.GREEN);
@@ -66,21 +75,33 @@ public class World {
 				
 				int deltaX, deltaY;
 				int radius = 50;
-				int theta = (int)((180 * Math.atan(nodes.get(i - 1).getSlope())) / Math.PI);
+				int theta = (int) nodes.get(i - 1).getAngle();
 				
-				deltaX = (int) ((radius * Math.cos(Math.toRadians(theta))) + (100 * Math.cos(Math.toRadians(135))));
-				deltaY = (int) ((radius * Math.sin(Math.toRadians(theta))) + (100 * Math.sin(Math.toRadians(135))));
+				deltaX = (int) ((radius * Math.cos(Math.toRadians(theta))) + (radius * Math.cos(Math.toRadians(135))));
+				deltaY = (int) ((radius * Math.sin(Math.toRadians(theta))) + (radius * Math.sin(Math.toRadians(135))));
 				
-				System.out.println(deltaX + " " + deltaY);
+				System.out.println((radius * Math.cos(Math.toRadians(theta)) + " " + (radius * Math.sin(Math.toRadians(theta)))) + " " + theta);
+				
+				g2d.setStroke(new BasicStroke(3));
 				
 				if (Math.atan(nodes.get(i - 1).getSlope()) >= 0) {
-					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX - 33,
-							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() - deltaY - 33,
-					100, 100, 90 + Math.abs(theta), 100);
+					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX,
+							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() - deltaY,
+					radius * 2, radius * 2, 90 + Math.abs(theta), 30);
+					
+					g2d.setColor(Color.PINK);
+					g2d.fillRect(nodes.get(i - 1).getX() - deltaX,
+							nodes.get(i - 1).getY() - deltaY, 30, 30);
+					
 				} else {
-					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX - 33,
-							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() - deltaY - 33,
-					100, 100, 270 - Math.abs(theta), 100);
+					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX,
+							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() - deltaY,
+					radius * 2, radius * 2, 270 - Math.abs(theta), 30);
+					
+					g2d.setColor(Color.PINK);
+					g2d.fillRect(nodes.get(i - 1).getX() - deltaX,
+							nodes.get(i - 1).getY() - deltaY, 30, 30);
+					
 				}
 			} else if (i == 1 && nodes.get(i - 1).getType() == Node.ConnectionType.CURVED) {
 				double startTheta = 0;

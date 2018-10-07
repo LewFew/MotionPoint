@@ -21,6 +21,33 @@ public class Node {
 		this.type = type;
 	}
 	
+	public double getDeltaX() {
+		if (parentNode != null)
+			return (double)x - (double)parentNode.getX();
+		else
+			return 0;
+	}
+	
+	public double getDeltaY() {
+		if (parentNode != null)
+			return -((double)y - (double)parentNode.getY());
+		else
+			return 0;
+	}
+	
+	public double getAngle() {
+		if (parentNode != null) {
+			double deltaX = (double)x - (double)parentNode.getX(), deltaY = -((double)y - (double)parentNode.getY());	
+			if (Math.toDegrees(Math.atan2(deltaY, deltaX)) < 0)  {
+				return 360 - Math.abs(Math.toDegrees(Math.atan2(deltaY, deltaX)));
+			}else {
+				return Math.toDegrees(Math.atan2(deltaY, deltaX));
+			}
+		} else {
+			return 90;
+		}
+	}
+	
 	public double getSlope() {
 		if (parentNode != null) {
 			if (type.equals(ConnectionType.STRAIGHT)) {

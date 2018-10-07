@@ -107,15 +107,16 @@ public class InformationWindow extends JFrame {
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				if (chckbxCurve.isSelected()) {
+					focusedNode.setType(ConnectionType.CURVED);
+				} else {
+					focusedNode.setType(ConnectionType.STRAIGHT);
+				}
+				
 				if (index > 0) {
 					focusedNode.setX(Integer.parseInt(txtX.getText()));
 					focusedNode.setY(Integer.parseInt(txtY.getText()));
-					
-					if (chckbxCurve.isSelected()) {
-						focusedNode.setType(ConnectionType.CURVED);
-					} else {
-						focusedNode.setType(ConnectionType.STRAIGHT);
-					}
 				} else {
 					txtX.setText("0");
 					txtY.setText("0");
