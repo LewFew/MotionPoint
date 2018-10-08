@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -15,6 +16,9 @@ public class World {
 	public ArrayList<Node> nodes = new ArrayList<Node>();
 	private int primedNode = 0;
 	private int lastPrime = -1;
+	
+	double c = 10;
+	int k = 0;
 	
 	public World() {
 		nodes.add(new Node(null, 0, 0, 0, Node.ConnectionType.STRAIGHT));
@@ -57,6 +61,25 @@ public class World {
 			g.setColor(Color.BLACK);
 			g.drawString(String.valueOf(currentNode.getAngle()), currentNode.getX() - 50, currentNode.getY());
 			
+			g2d.drawArc(0, 0, 200, 200, k, (int)c);
+			
+			if (KeyInput.isKeyDown(KeyEvent.VK_Q)) {
+				c++;
+			} else if (KeyInput.isKeyDown(KeyEvent.VK_A)) {
+				c--;
+			}
+			
+			if (KeyInput.isKeyDown(KeyEvent.VK_W)) {
+				k++;
+			} else if (KeyInput.isKeyDown(KeyEvent.VK_S)) {
+				k--;
+			}
+			
+			if (KeyInput.isKeyDown(KeyEvent.VK_T)) {
+				c = 10;
+				k=0;
+			}
+			
 			/*g.setColor(Color.RED);
 			g.drawLine(currentNode.getX(), currentNode.getY(),
 					currentNode.getX() - (int)currentNode.getDeltaX(),
@@ -77,30 +100,63 @@ public class World {
 				int radius = 50;
 				int theta = (int) nodes.get(i - 1).getAngle();
 				
-				deltaX = (int) ((radius * Math.cos(Math.toRadians(theta))) + (radius * Math.cos(Math.toRadians(135))));
-				deltaY = (int) ((radius * Math.sin(Math.toRadians(theta))) + (radius * Math.sin(Math.toRadians(135))));
-				
-				System.out.println((radius * Math.cos(Math.toRadians(theta)) + " " + (radius * Math.sin(Math.toRadians(theta)))) + " " + theta);
-				
 				g2d.setStroke(new BasicStroke(3));
 				
 				if (Math.atan(nodes.get(i - 1).getSlope()) >= 0) {
-					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX,
-							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() - deltaY,
-					radius * 2, radius * 2, 90 + Math.abs(theta), 30);
 					
-					g2d.setColor(Color.PINK);
+					deltaX = (int) ((radius * Math.cos(Math.toRadians(theta))) - (radius * Math.cos(Math.toRadians(135))));
+					deltaY = (int) ((radius * Math.sin(Math.toRadians(theta))) - (radius * Math.sin(Math.toRadians(135))));
+					
+					System.out.println("DeltaX: " + deltaX + "( " + (radius * Math.cos(Math.toRadians(theta))) + " - " + (radius * Math.cos(Math.toRadians(135))) + " )"
+							+ "DeltaY: " + deltaY + "( " + (radius * Math.sin(Math.toRadians(theta))) + " - " + (radius * Math.sin(Math.toRadians(135))) + " ) Theta: " + theta + " degrees");
+					
+					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX,
+							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() + deltaY,
+					radius * 2, radius * 2, theta, 30);
+					
+			/*		g2d.setColor(Color.MAGENTA);
 					g2d.fillRect(nodes.get(i - 1).getX() - deltaX,
-							nodes.get(i - 1).getY() - deltaY, 30, 30);
+							nodes.get(i - 1).getY() + deltaY, 10, 10);
+					
+					g2d.setColor(Color.RED);
+					g2d.fillRect(nodes.get(i - 1).getX(),
+							nodes.get(i - 1).getY(), 10, 10);
+					
+					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad(),
+							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad(),
+					radius * 2, radius * 2, theta, 30);
+					
+					g.drawLine(nodes.get(i - 1).getX(), nodes.get(i - 1).getY(), nodes.get(i - 1).getX() + deltaX, nodes.get(i - 1).getY());
+					g.drawLine(nodes.get(i - 1).getX(), nodes.get(i - 1).getY(), nodes.get(i - 1).getX(), nodes.get(i - 1).getY() - deltaY);*/
 					
 				} else {
-					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX,
-							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() - deltaY,
-					radius * 2, radius * 2, 270 - Math.abs(theta), 30);
 					
-					g2d.setColor(Color.PINK);
+					theta = 270 - theta;
+					
+					deltaX = (int) ((radius * Math.cos(Math.toRadians(theta))) - (radius * Math.cos(Math.toRadians(135))));
+					deltaY = (int) ((radius * Math.sin(Math.toRadians(theta))) - (radius * Math.sin(Math.toRadians(135))));
+					
+					System.out.println("DeltaX: " + deltaX + "( " + (radius * Math.cos(Math.toRadians(theta))) + " - " + (radius * Math.cos(Math.toRadians(135))) + " )"
+							+ "DeltaY: " + deltaY + "( " + (radius * Math.sin(Math.toRadians(theta))) + " - " + (radius * Math.sin(Math.toRadians(135))) + " ) Theta: " + theta + " degrees");
+					
+					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX,
+							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() + deltaY,
+					radius * 2, radius * 2, theta, 30);
+					
+				/*	g2d.setColor(Color.MAGENTA);
 					g2d.fillRect(nodes.get(i - 1).getX() - deltaX,
-							nodes.get(i - 1).getY() - deltaY, 30, 30);
+							nodes.get(i - 1).getY() + deltaY, 10, 10);
+					
+					g2d.setColor(Color.RED);
+					g2d.fillRect(nodes.get(i - 1).getX(),
+							nodes.get(i - 1).getY(), 10, 10);
+					
+					g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad(),
+							nodes.get(i - 1).getY() - nodes.get(i - 1).getRad(),
+					radius * 2, radius * 2, theta, 30);
+					
+					g.drawLine(nodes.get(i - 1).getX(), nodes.get(i - 1).getY(), nodes.get(i - 1).getX() + deltaX, nodes.get(i - 1).getY());
+					g.drawLine(nodes.get(i - 1).getX(), nodes.get(i - 1).getY(), nodes.get(i - 1).getX(), nodes.get(i - 1).getY() - deltaY);*/
 					
 				}
 			} else if (i == 1 && nodes.get(i - 1).getType() == Node.ConnectionType.CURVED) {
