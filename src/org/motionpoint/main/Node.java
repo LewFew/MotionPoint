@@ -13,12 +13,22 @@ public class Node {
 	private ConnectionType type;
 	private double slope;
 	
+	private Node childNode;
+	
 	public Node(Node parentNode, int action, int x, int y, ConnectionType type) {
 		this.parentNode = parentNode;
 		this.action = action;
 		this.x = x;
 		this.y = y;
 		this.type = type;
+	}
+	
+	public Node getChildNode() {
+		return childNode;
+	}
+	
+	public void setChildNode(Node childNode) {
+		this.childNode = childNode;
 	}
 	
 	public double getDeltaX() {
