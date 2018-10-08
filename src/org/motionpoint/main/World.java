@@ -78,16 +78,25 @@ public class World {
 				int deltaX = 0, deltaY = 0;
 				int radius = 50;
 				int theta = (int) nodes.get(i - 1).getAngle();
-				int arcAngleLength = 30;
+				int arcAngleLength = 50;
 				
 				//-------------------------------
 				
-				boolean mode = (nodes.get(i - 1).getChildNode().getX() > nodes.get(i - 1).getX()) ? true : false;
-				//If referring to my notes, a mode of false is mode 1. A mode of true is mode 2
+				//xMode is which circle to take
+				//yMode is the direction in which the circle grows (clockwise or counter-clockwise)
+				
+				boolean xMode = (nodes.get(i - 1).getChildNode().getX() > nodes.get(i - 1).getX()) ? true : false;
+				boolean yMode = (nodes.get(i - 1).getChildNode().getY() < nodes.get(i - 1).getY()) ? true : false;
+				
+				//If referring to my notes, a xMode of false is xMode 1. A mode of true is xMode 2
 				
 				if (0 < theta && theta < 90) {
+
+					if ((xMode && yMode) || (!xMode && !yMode)) {
+						xMode = !xMode;
+					}
 					
-					if (!mode) {
+					if (!xMode) {
 						
 						theta = 270 + theta;
 						
@@ -105,7 +114,19 @@ public class World {
 					
 				} else if (90 < theta && theta < 180) {
 					
-					if (!mode) {
+					if (xMode && !yMode) {
+						xMode = !xMode;
+						yMode = !yMode;
+					} else if (!xMode && !yMode) {
+						yMode = !yMode;
+					} else if (xMode && yMode) {
+						yMode = !yMode;
+					} else if (!xMode && yMode) {
+						xMode = !xMode;
+						yMode = !yMode;
+					}
+					
+					if (!xMode) {
 						
 						theta = theta - 90;
 						
@@ -122,8 +143,20 @@ public class World {
 					}
 					
 				} else if (180 < theta && theta < 270) {
+
+					if (xMode && !yMode) {
+						yMode = !yMode;
+					} else if (!xMode && !yMode) {
+						xMode = !xMode;
+						yMode = !yMode;
+					} else if (xMode && yMode) {
+						xMode = !xMode;
+						yMode = !yMode;
+					} else if (!xMode && yMode) {
+						yMode = !yMode;
+					}
 					
-					if (!mode) {
+					if (!xMode) {
 						
 						theta = theta + 90;
 						
@@ -141,7 +174,13 @@ public class World {
 					
 				} else if (270 < theta && theta < 360) {
 					
-					if (!mode) {
+					if (xMode && !yMode) {
+						xMode = !xMode;
+					} else if (!xMode && yMode) {
+						xMode = !xMode;
+					}
+					
+					if (!xMode) {
 						
 						theta = theta - 270;
 						
@@ -159,13 +198,15 @@ public class World {
 					
 				}
 				
+				System.out.println(xMode + " " + yMode);
+				
+				arcAngleLength = (yMode) ? arcAngleLength : -arcAngleLength;
+				
 				g2d.setColor(Color.GREEN);
 				g2d.setStroke(new BasicStroke(3));
 				g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX,
 						nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() + deltaY,
 				radius * 2, radius * 2, theta, arcAngleLength);
-				
-				System.out.println(theta);
 				
 				//-------------------------------
 				
