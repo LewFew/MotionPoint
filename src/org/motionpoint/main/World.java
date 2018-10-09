@@ -76,17 +76,17 @@ public class World {
 				g2d.setColor(Color.GREEN);
 				
 				int deltaX = 0, deltaY = 0;
-				int radius = 50;
+				int radius = 100;
 				int theta = (int) nodes.get(i - 1).getAngle();
-				int arcAngleLength = 50;
+				int arcAngleLength = 180;
 				
 				//-------------------------------
 				
 				//xMode is which circle to take
 				//yMode is the direction in which the circle grows (clockwise or counter-clockwise)
 				
-				boolean xMode = (nodes.get(i - 1).getChildNode().getX() > nodes.get(i - 1).getX()) ? true : false;
-				boolean yMode = (nodes.get(i - 1).getChildNode().getY() < nodes.get(i - 1).getY()) ? true : false;
+				boolean xMode = (nodes.get(i - 1).getChildNode().getX() > nodes.get(i - 1).getX());
+				boolean yMode = (nodes.get(i - 1).getChildNode().getY() < nodes.get(i - 1).getY());
 				
 				//If referring to my notes, a xMode of false is xMode 1. A mode of true is xMode 2
 				
@@ -198,14 +198,11 @@ public class World {
 					
 				}
 				
-				System.out.println(xMode + " " + yMode);
-				
 				arcAngleLength = (yMode) ? arcAngleLength : -arcAngleLength;
 				
 				g2d.setColor(Color.GREEN);
-				g2d.setStroke(new BasicStroke(3));
-				g2d.drawArc(nodes.get(i - 1).getX() - nodes.get(i - 1).getRad() - deltaX,
-						nodes.get(i - 1).getY() - nodes.get(i - 1).getRad() + deltaY,
+				g2d.drawArc(nodes.get(i - 1).getX() - (int)(radius/3.5)  - deltaX,
+						nodes.get(i - 1).getY() - (int)(radius/3.5) + deltaY,
 				radius * 2, radius * 2, theta, arcAngleLength);
 				
 				//-------------------------------
