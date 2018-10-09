@@ -29,6 +29,10 @@ public class World {
 	public void setPrime(int newPrime) {
 		primedNode = newPrime;
 	}
+	
+	public int tanAngleCorrect(int theta) {
+		return ((360 + theta) - 90) % 360;
+	}
  	
 	public void render(Graphics g) {
 		
